@@ -21,8 +21,14 @@ def video_feed():
 @app.route('/raw_live_preview')
 def live_preview():
     thetav.get_live_preview()
-    return Response(live_preview_handler(thetav),
+    response = Response(live_preview_handler(thetav),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+
+    return response
 
 @app.route('/state')
 def state():
